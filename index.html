@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Startups & Investors Network</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="app-header">
+      <div class="header-content">
+        <h1>AI Startups & Investors Network</h1>
+        <p class="subtitle">Visualizing the connections between emerging AI companies and their financial backers</p>
+        <div class="header-controls">
+          <button id="magic-wand" class="btn primary-btn"><i class="fas fa-wand-magic-sparkles"></i> Animate Timeline</button>
+          <button id="reset-view" class="btn secondary-btn"><i class="fas fa-arrows-rotate"></i> Reset View</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Graph Container -->
+      <div id="cy" class="graph-container">
+        <div class="loading-overlay">
+          <div class="spinner"></div>
+          <p>Loading visualization...</p>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <h3><i class="fas fa-info-circle"></i> Node Information</h3>
+          <div id="node-details" class="info-panel">Click or hover over a node to see details</div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3><i class="fas fa-filter"></i> Filters</h3>
+          <div class="filter-controls">
+            <label class="checkbox-container">
+              <input type="checkbox" id="filter-startups" checked>
+              <span class="checkmark"></span>
+              Show Startups
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" id="filter-investors" checked>
+              <span class="checkmark"></span>
+              Show Investors
+            </label>
+          </div>
+        </div>
+
+        <!-- Legend Section -->
+        <div class="sidebar-section">
+          <h3><i class="fas fa-map-signs"></i> Legend</h3>
+          <div class="legend">
+            <div class="legend-item">
+              <span class="legend-color startup"></span><span>Startup</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color investor"></span><span>Investor</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-line"></span><span>Investment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <p>AI Startups & Investors Network Visualization &copy; 2023</p>
+      <p>Data sourced from publicly available investment information</p>
+    </footer>
+  </div>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>

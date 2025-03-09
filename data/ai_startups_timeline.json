@@ -1,0 +1,504 @@
+{
+  "startups": [
+    {
+      "name": "OpenAI",
+      "founded": "2015-12",
+      "comment": "OpenAI founded with a mission to advance AI research",
+      "logo": "logos/OpenAI.png"
+    },
+    {
+      "name": "AbacusAI",
+      "founded": "2016-01",
+      "comment": "AbacusAI founded to simplify AI for enterprises",
+      "logo": "logos/AbacusAI.png"
+    },
+    {
+      "name": "Glean",
+      "founded": "2019-01",
+      "comment": "Glean founded to enhance enterprise search with AI",
+      "logo": "logos/glean.png"
+    },
+    {
+      "name": "Anthropic",
+      "founded": "2021-01",
+      "comment": "Anthropic founded by ex-OpenAI researchers to focus on safe AI",
+      "logo": "logos/Anthropic.png"
+    },
+    {
+      "name": "Perplexity AI",
+      "founded": "2022-01",
+      "comment": "Perplexity AI founded to revolutionize search with AI",
+      "logo": "logos/Perplexity.png"
+    },
+    {
+      "name": "ElevenLabs",
+      "founded": "2022-01",
+      "comment": "ElevenLabs founded to innovate in AI voice generation",
+      "logo": "logos/elevenlabs.svg"
+    },
+    {
+      "name": "xAI",
+      "founded": "2023-01",
+      "comment": "xAI founded by Elon Musk to accelerate human scientific discovery",
+      "logo": "logos/xAI.png"
+    },
+    {
+      "name": "Mistral AI",
+      "founded": "2023-04",
+      "comment": "Mistral AI founded in France to compete in the global AI race",
+      "logo": "logos/Mistral.png"
+    }
+  ],
+  "investments": [
+    {
+      "investor": "Y Combinator",
+      "startup": "OpenAI",
+      "date": "2015-12",
+      "comment": "Y Combinator provides early seed funding to OpenAI"
+    },
+    {
+      "investor": "Elon Musk",
+      "startup": "OpenAI",
+      "date": "2015-12",
+      "comment": "Elon Musk invests as a co-founder of OpenAI"
+    },
+    {
+      "investor": "Sam Altman",
+      "startup": "OpenAI",
+      "date": "2015-12",
+      "comment": "Sam Altman invests as a co-founder of OpenAI"
+    },
+    {
+      "investor": "Reid Hoffman",
+      "startup": "OpenAI",
+      "date": "2015-12",
+      "comment": "Reid Hoffman joins as an early investor in OpenAI"
+    },
+    {
+      "investor": "Peter Thiel",
+      "startup": "OpenAI",
+      "date": "2015-12",
+      "comment": "Peter Thiel provides early funding to OpenAI"
+    },
+    {
+      "investor": "Khosla Ventures",
+      "startup": "OpenAI",
+      "date": "2016-01",
+      "comment": "Khosla Ventures likely invests in OpenAI (approximate)"
+    },
+    {
+      "investor": "Khosla Ventures",
+      "startup": "AbacusAI",
+      "date": "2017-01",
+      "comment": "Khosla Ventures supports AbacusAI in its seed round (approximate)"
+    },
+    {
+      "investor": "Eric Schmidt",
+      "startup": "AbacusAI",
+      "date": "2017-01",
+      "comment": "Eric Schmidt invests in AbacusAI during seed round (approximate)"
+    },
+    {
+      "investor": "Ram Shriram",
+      "startup": "AbacusAI",
+      "date": "2017-01",
+      "comment": "Ram Shriram joins AbacusAI's seed round (approximate)"
+    },
+    {
+      "investor": "Paul Buchheit",
+      "startup": "AbacusAI",
+      "date": "2017-01",
+      "comment": "Paul Buchheit invests in AbacusAI during seed round (approximate)"
+    },
+    {
+      "investor": "Index Ventures",
+      "startup": "AbacusAI",
+      "date": "2018-12",
+      "comment": "Index Ventures backs AbacusAI in seed or Series A (approximate)"
+    },
+    {
+      "investor": "Decibel Ventures",
+      "startup": "AbacusAI",
+      "date": "2018-12",
+      "comment": "Decibel Ventures invests in AbacusAI during early funding (approximate)"
+    },
+    {
+      "investor": "Andreessen Horowitz (a16z)",
+      "startup": "OpenAI",
+      "date": "2019-07",
+      "comment": "Andreessen Horowitz invests in OpenAI alongside Microsoft (approximate)"
+    },
+    {
+      "investor": "Microsoft",
+      "startup": "OpenAI",
+      "date": "2019-07",
+      "comment": "Microsoft invests $1 billion in OpenAI for strategic partnership"
+    },
+    {
+      "investor": "Lightspeed Venture Partners",
+      "startup": "Glean",
+      "date": "2019-01",
+      "comment": "Lightspeed Venture Partners leads Glean's Series A"
+    },
+    {
+      "investor": "Kleiner Perkins",
+      "startup": "Glean",
+      "date": "2020-01",
+      "comment": "Kleiner Perkins invests in Glean during Series A or B (approximate)"
+    },
+    {
+      "investor": "General Catalyst",
+      "startup": "Glean",
+      "date": "2020-01",
+      "comment": "General Catalyst joins Glean's funding round (approximate)"
+    },
+    {
+      "investor": "Tiger Global",
+      "startup": "AbacusAI",
+      "date": "2020-01",
+      "comment": "Tiger Global invests in AbacusAI during Series B (approximate)"
+    },
+    {
+      "investor": "Coatue Management",
+      "startup": "AbacusAI",
+      "date": "2021-01",
+      "comment": "Coatue Management backs AbacusAI in Series B or later (approximate)"
+    },
+    {
+      "investor": "Alkeon Capital",
+      "startup": "AbacusAI",
+      "date": "2021-01",
+      "comment": "Alkeon Capital invests in AbacusAI during growth stage (approximate)"
+    },
+    {
+      "investor": "Microsoft",
+      "startup": "OpenAI",
+      "date": "2021-01",
+      "comment": "Microsoft makes additional multi-billion dollar investment in OpenAI"
+    },
+    {
+      "investor": "Sequoia Capital",
+      "startup": "Glean",
+      "date": "2021-01",
+      "comment": "Sequoia Capital invests in Glean during Series B or C (approximate)"
+    },
+    {
+      "investor": "Menlo Ventures",
+      "startup": "Anthropic",
+      "date": "2022-01",
+      "comment": "Menlo Ventures provides seed funding to Anthropic (approximate)"
+    },
+    {
+      "investor": "Alphabet",
+      "startup": "Anthropic",
+      "date": "2022-01",
+      "comment": "Alphabet invests in Anthropic during seed or Series A (approximate)"
+    },
+    {
+      "investor": "FTX",
+      "startup": "Anthropic",
+      "date": "2022-01",
+      "comment": "FTX invests in Anthropic, but status unclear post-bankruptcy (approximate)"
+    },
+    {
+      "investor": "Elad Gil",
+      "startup": "Perplexity AI",
+      "date": "2023-01",
+      "comment": "Elad Gil provides seed funding to Perplexity AI (approximate)"
+    },
+    {
+      "investor": "Nat Friedman",
+      "startup": "Perplexity AI",
+      "date": "2023-01",
+      "comment": "Nat Friedman invests in Perplexity AI during seed round (approximate)"
+    },
+    {
+      "investor": "Naval Ravikant",
+      "startup": "Perplexity AI",
+      "date": "2023-01",
+      "comment": "Naval Ravikant joins Perplexity AI's seed round (approximate)"
+    },
+    {
+      "investor": "Sequoia Capital",
+      "startup": "ElevenLabs",
+      "date": "2023-01",
+      "comment": "Sequoia Capital provides seed funding to ElevenLabs (approximate)"
+    },
+    {
+      "investor": "Lightspeed Venture Partners",
+      "startup": "Glean",
+      "date": "2022-01",
+      "comment": "Lightspeed Venture Partners leads Glean's $100 million Series C"
+    },
+    {
+      "investor": "Coatue",
+      "startup": "Glean",
+      "date": "2022-01",
+      "comment": "Coatue invests in Glean during Series C or later (approximate)"
+    },
+    {
+      "investor": "Lightspeed Venture Partners",
+      "startup": "Mistral AI",
+      "date": "2023-06",
+      "comment": "Lightspeed Venture Partners leads Mistral AI's €105 million seed round"
+    },
+    {
+      "investor": "First Minute Capital",
+      "startup": "Mistral AI",
+      "date": "2023-06",
+      "comment": "First Minute Capital joins Mistral AI's seed round"
+    },
+    {
+      "investor": "LocalGlobe",
+      "startup": "Mistral AI",
+      "date": "2023-06",
+      "comment": "LocalGlobe supports Mistral AI in its seed round"
+    },
+    {
+      "investor": "La Famiglia",
+      "startup": "Mistral AI",
+      "date": "2023-06",
+      "comment": "La Famiglia invests in Mistral AI during seed round"
+    },
+    {
+      "investor": "Motier Ventures",
+      "startup": "Mistral AI",
+      "date": "2023-06",
+      "comment": "Motier Ventures backs Mistral AI in its seed round"
+    },
+    {
+      "investor": "Valor Equity Partners",
+      "startup": "xAI",
+      "date": "2023-07",
+      "comment": "Valor Equity Partners invests in xAI's $135 million seed round"
+    },
+    {
+      "investor": "Vy Capital",
+      "startup": "xAI",
+      "date": "2023-07",
+      "comment": "Vy Capital joins xAI's seed round"
+    },
+    {
+      "investor": "Andreessen Horowitz (a16z)",
+      "startup": "xAI",
+      "date": "2023-07",
+      "comment": "Andreessen Horowitz invests in xAI's seed round"
+    },
+    {
+      "investor": "Sequoia Capital",
+      "startup": "xAI",
+      "date": "2023-07",
+      "comment": "Sequoia Capital supports xAI in its seed round"
+    },
+    {
+      "investor": "Fidelity Management & Research Company",
+      "startup": "xAI",
+      "date": "2023-07",
+      "comment": "Fidelity Management & Research Company joins xAI's seed round"
+    },
+    {
+      "investor": "Microsoft",
+      "startup": "OpenAI",
+      "date": "2023-01",
+      "comment": "Microsoft invests further $10 billion+ in OpenAI"
+    },
+    {
+      "investor": "Nvidia",
+      "startup": "OpenAI",
+      "date": "2023-01",
+      "comment": "Nvidia forms strategic partnership with OpenAI (approximate)"
+    },
+    {
+      "investor": "Amazon",
+      "startup": "Anthropic",
+      "date": "2023-09",
+      "comment": "Amazon commits up to $4 billion to Anthropic"
+    },
+    {
+      "investor": "Lightspeed Venture Partners",
+      "startup": "Anthropic",
+      "date": "2023-12",
+      "comment": "Lightspeed Venture Partners invests in Anthropic (approximate)"
+    },
+    {
+      "investor": "Salesforce Ventures",
+      "startup": "Anthropic",
+      "date": "2023-12",
+      "comment": "Salesforce Ventures backs Anthropic in Series B or later (approximate)"
+    },
+    {
+      "investor": "Cisco Investments",
+      "startup": "Anthropic",
+      "date": "2023-12",
+      "comment": "Cisco Investments joins Anthropic's funding round (approximate)"
+    },
+    {
+      "investor": "Fidelity Management & Research Co.",
+      "startup": "Anthropic",
+      "date": "2023-12",
+      "comment": "Fidelity Management & Research Co. invests in Anthropic (approximate)"
+    },
+    {
+      "investor": "General Catalyst",
+      "startup": "Anthropic",
+      "date": "2023-12",
+      "comment": "General Catalyst supports Anthropic in Series B or later (approximate)"
+    },
+    {
+      "investor": "D1 Capital Partners",
+      "startup": "Anthropic",
+      "date": "2023-12",
+      "comment": "D1 Capital Partners invests in Anthropic (approximate)"
+    },
+    {
+      "investor": "Jane Street",
+      "startup": "Anthropic",
+      "date": "2023-12",
+      "comment": "Jane Street joins Anthropic's funding round (approximate)"
+    },
+    {
+      "investor": "Andreessen Horowitz (a16z)",
+      "startup": "ElevenLabs",
+      "date": "2024-01",
+      "comment": "Andreessen Horowitz leads ElevenLabs' $80 million Series B"
+    },
+    {
+      "investor": "ICONIQ Growth",
+      "startup": "ElevenLabs",
+      "date": "2024-01",
+      "comment": "ICONIQ Growth co-leads ElevenLabs' Series B"
+    },
+    {
+      "investor": "Andreessen Horowitz (a16z)",
+      "startup": "Mistral AI",
+      "date": "2024-02",
+      "comment": "Andreessen Horowitz invests in Mistral AI's $415 million Series A"
+    },
+    {
+      "investor": "General Catalyst",
+      "startup": "Mistral AI",
+      "date": "2024-02",
+      "comment": "General Catalyst joins Mistral AI's Series A"
+    },
+    {
+      "investor": "Lightspeed",
+      "startup": "Mistral AI",
+      "date": "2024-02",
+      "comment": "Lightspeed continues support in Mistral AI's Series A"
+    },
+    {
+      "investor": "Index Ventures",
+      "startup": "Mistral AI",
+      "date": "2024-02",
+      "comment": "Index Ventures invests in Mistral AI's Series A"
+    },
+    {
+      "investor": "Xavier Niel",
+      "startup": "Mistral AI",
+      "date": "2024-02",
+      "comment": "Xavier Niel backs Mistral AI in Series A"
+    },
+    {
+      "investor": "Rodolphe Saadé",
+      "startup": "Mistral AI",
+      "date": "2024-02",
+      "comment": "Rodolphe Saadé invests in Mistral AI's Series A"
+    },
+    {
+      "investor": "Institutional Venture Partners (IVP)",
+      "startup": "Perplexity AI",
+      "date": "2024-04",
+      "comment": "IVP leads Perplexity AI's $73.6 million Series B"
+    },
+    {
+      "investor": "Thrive Capital",
+      "startup": "OpenAI",
+      "date": "2024-04",
+      "comment": "Thrive Capital leads OpenAI's $6.6 billion funding round"
+    },
+    {
+      "investor": "SoftBank Group",
+      "startup": "OpenAI",
+      "date": "2024-05",
+      "comment": "SoftBank commits $3 billion to OpenAI for AI agents"
+    },
+    {
+      "investor": "Blackrock",
+      "startup": "xAI",
+      "date": "2024-05",
+      "comment": "Blackrock invests in xAI's $6 billion Series B at $24 billion valuation"
+    },
+    {
+      "investor": "Kingdom Holdings",
+      "startup": "xAI",
+      "date": "2024-05",
+      "comment": "Kingdom Holdings joins xAI's Series B"
+    },
+    {
+      "investor": "SoftBank Vision Fund 2",
+      "startup": "Perplexity AI",
+      "date": "2024-06",
+      "comment": "SoftBank Vision Fund 2 invests in Perplexity AI (approximate)"
+    },
+    {
+      "investor": "Jeff Bezos (Bezos Expeditions)",
+      "startup": "Perplexity AI",
+      "date": "2024-06",
+      "comment": "Jeff Bezos invests in Perplexity AI via Bezos Expeditions (approximate)"
+    },
+    {
+      "investor": "Nvidia",
+      "startup": "Perplexity AI",
+      "date": "2024-06",
+      "comment": "Nvidia backs Perplexity AI with strategic investment (approximate)"
+    },
+    {
+      "investor": "NEA",
+      "startup": "Perplexity AI",
+      "date": "2024-06",
+      "comment": "NEA invests in Perplexity AI during Series B (approximate)"
+    },
+    {
+      "investor": "NEA",
+      "startup": "ElevenLabs",
+      "date": "2024-06",
+      "comment": "NEA invests in ElevenLabs post-Series B (approximate)"
+    },
+    {
+      "investor": "World Innovation Lab (WiL)",
+      "startup": "ElevenLabs",
+      "date": "2024-06",
+      "comment": "World Innovation Lab backs ElevenLabs (approximate)"
+    },
+    {
+      "investor": "Lunate (Abu Dhabi)",
+      "startup": "ElevenLabs",
+      "date": "2024-06",
+      "comment": "Lunate (Abu Dhabi) invests in ElevenLabs (approximate)"
+    },
+    {
+      "investor": "BNP Paribas",
+      "startup": "Mistral AI",
+      "date": "2024-06",
+      "comment": "BNP Paribas invests in Mistral AI (approximate)"
+    },
+    {
+      "investor": "Nvidia",
+      "startup": "Mistral AI",
+      "date": "2024-06",
+      "comment": "Nvidia provides strategic investment to Mistral AI (approximate)"
+    },
+    {
+      "investor": "Salesforce Ventures",
+      "startup": "Mistral AI",
+      "date": "2024-06",
+      "comment": "Salesforce Ventures backs Mistral AI (approximate)"
+    },
+    {
+      "investor": "Microsoft",
+      "startup": "Mistral AI",
+      "date": "2024-12",
+      "comment": "Microsoft invests $16 million in Mistral AI"
+    }
+  ]
+}
