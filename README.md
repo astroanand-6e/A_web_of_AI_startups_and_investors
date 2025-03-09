@@ -1,8 +1,9 @@
-# AI Startups & Investors Network Visualization
+<img width="1641" alt="Screenshot 2025-03-10 at 12 16 26 AM" src="https://github.com/user-attachments/assets/a15515ed-6542-40c8-adf8-bad6d20f80c4" /># AI Startups & Investors Network Visualization
 
 An interactive visualization tool that maps the connections between emerging AI startups and their financial backers, offering insights into investment patterns in the artificial intelligence ecosystem.
 
-![AI Startup Investment Visualization](https://placeholder-for-screenshot.png)
+<img width="1641" alt="AI Startup Investment Visualization" src="https://github.com/user-attachments/assets/59780332-b403-4eae-a70a-7bc5997cb817" />
+
 
 ## Features
 
