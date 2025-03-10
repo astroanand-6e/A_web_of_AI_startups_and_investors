@@ -139,7 +139,18 @@ function renderGraph(startups, investors, investments) {
                     .attr("y", -20)
                     .attr("width", 40)
                     .attr("height", 40)
-                    .attr("clip-path", "circle(20px at center)");
+                    .attr("clip-path", "circle(20px at center)")
+                    .on("error", function(event, d) {
+                        // Remove the image with error and add a text label instead
+                        d3.select(this).remove();
+                        d3.select(this.parentNode)
+                            .append("text")
+                            .attr("dy", 5)
+                            .attr("text-anchor", "middle")
+                            .attr("font-size", "12px")
+                            .attr("fill", "white")
+                            .text(d => d.id.charAt(0));
+                    });
 
                 // Add text label
                 g.append("text")

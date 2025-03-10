@@ -61,5 +61,7 @@ Directory structure:
     │   └── ai_startups_timeline.json
     └── logos/
         └── .DS_Store
+        └── logo1.png
+        └── logo2.png
     └── README.md    
 ```
