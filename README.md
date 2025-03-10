@@ -2,7 +2,9 @@
 [link to the live website](https://astroanand-6e.github.io/A_web_of_AI_startups_and_investors/)
 An interactive visualization tool that maps the connections between emerging AI startups and their financial backers, offering insights into investment patterns in the artificial intelligence ecosystem.
 
-<img width="1641" alt="AI Startup Investment Visualization" src="https://github.com/user-attachments/assets/59780332-b403-4eae-a70a-7bc5997cb817" />
+![Screenshot 2025-03-10 at 1 44 00 PM](https://github.com/user-attachments/assets/5110dbaf-87c9-463b-be64-7047e2847584)
+
+
 
 
 ## Features
