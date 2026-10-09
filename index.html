@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Startups & Investors Network</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://d3js.org/d3.v7.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Deferred and module scripts run in document order, so D3 is ready before the app. -->
+  <script defer src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <noscript><style>.loading-overlay .spinner, .loading-overlay [role="status"] { display: none; }</style></noscript>
 </head>
 <body>
   <div class="container">
@@ -23,11 +26,46 @@
     </header>
 
     <main>
-      <!-- Graph Container -->
+      <!-- Graph Container: the SVG is inserted as its first child; the overlays below sit on top -->
       <div id="cy" class="graph-container">
+        <div class="hud" aria-hidden="true">
+          <div class="hud__panel hud__date">
+            <div class="odo odo--year" data-hud="year"></div>
+            <div class="roller" data-hud="month"></div>
+          </div>
+          <div class="hud__panel hud__stats">
+            <div class="stat stat--startups"><div class="odo" data-hud="startups"></div><span class="stat__label">Startups</span></div>
+            <div class="stat stat--investors"><div class="odo" data-hud="investors"></div><span class="stat__label">Investors</span></div>
+            <div class="stat stat--deals"><div class="odo" data-hud="deals"></div><span class="stat__label">Deals</span></div>
+          </div>
+        </div>
+
+        <div class="caption" data-hud="caption"></div>
+
+        <div class="scrubber" role="group" aria-label="Timeline playback">
+          <button type="button" class="scrubber__btn scrubber__btn--play" data-hud="play" aria-label="Pause timeline"><i class="fas fa-pause" aria-hidden="true"></i></button>
+          <div class="scrubber__track" data-hud="track" role="slider" tabindex="0" aria-label="Timeline position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="scrubber__rail"><div class="scrubber__fill" data-hud="fill"></div></div>
+            <div class="scrubber__ticks" data-hud="ticks"></div>
+            <div class="scrubber__head" data-hud="head"></div>
+            <div class="scrubber__years" data-hud="years"></div>
+            <div class="scrubber__preview" data-hud="preview"></div>
+          </div>
+          <button type="button" class="scrubber__btn scrubber__btn--speed" data-hud="speed" aria-label="Playback speed">1×</button>
+          <button type="button" class="scrubber__btn" data-hud="replay" aria-label="Replay timeline"><i class="fas fa-rotate-left" aria-hidden="true"></i></button>
+          <button type="button" class="scrubber__btn" data-hud="exit" aria-label="Exit timeline"><i class="fas fa-xmark" aria-hidden="true"></i></button>
+        </div>
+
+        <div class="zoom-controls" role="group" aria-label="Zoom">
+          <button type="button" data-zoom="in" aria-label="Zoom in" title="Zoom in"><i class="fas fa-plus" aria-hidden="true"></i></button>
+          <button type="button" data-zoom="out" aria-label="Zoom out" title="Zoom out"><i class="fas fa-minus" aria-hidden="true"></i></button>
+          <button type="button" data-zoom="fit" aria-label="Fit the network to the view" title="Fit to view"><i class="fas fa-compress" aria-hidden="true"></i></button>
+        </div>
+
         <div class="loading-overlay">
           <div class="spinner"></div>
-          <p>Loading visualization...</p>
+          <p role="status">Loading visualization...</p>
+          <noscript><p>This visualization needs JavaScript. Enable it and reload the page.</p></noscript>
         </div>
       </div>
 
@@ -62,12 +100,13 @@
               <span class="legend-color startup"></span><span>Startup</span>
             </div>
             <div class="legend-item">
-              <span class="legend-color investor"></span><span>Investor</span>
+              <span class="legend-color investor"></span><span>Investor (size = portfolio)</span>
             </div>
             <div class="legend-item">
-              <span class="legend-line"></span><span>Investment</span>
+              <span class="legend-line"></span><span>Investment (thicker = more rounds)</span>
             </div>
           </div>
+          <p class="legend-hint"><kbd>Space</kbd> play / pause · <kbd>←</kbd> <kbd>→</kbd> step months · <kbd>Esc</kbd> exit timeline</p>
         </div>
       </div>
     </main>
@@ -78,7 +117,26 @@
     </footer>
   </div>
 
-  <!-- Script -->
-  <script src="script.js"></script>
+  <!-- Explains a page that cannot start: opened from file:// (modules and fetch() are blocked
+       there), or an app script that failed to load or crashed before the graph appeared. -->
+  <script>
+    (() => {
+      const overlay = document.querySelector('.loading-overlay');
+      const fail = (message) => {
+        if (overlay.classList.contains('is-hidden') || overlay.classList.contains('is-error')) return;
+        overlay.classList.add('is-error');
+        overlay.querySelector('[role="status"]').textContent = message;
+      };
+      if (window.location.protocol === 'file:') {
+        fail('Open this page through a local web server (for example: python3 -m http.server) — browsers block loading the data from file://.');
+        return;
+      }
+      // The capture phase also sees the app module failing to load; logos and stylesheets are ignored.
+      window.addEventListener('error', (event) => {
+        const appScript = event.target instanceof HTMLScriptElement && event.target.type === 'module';
+        if (appScript || event instanceof ErrorEvent) fail('The visualization failed to load. Please reload the page.');
+      }, true);
+    })();
+  </script>
 </body>
 </html>

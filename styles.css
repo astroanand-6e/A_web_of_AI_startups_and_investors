@@ -1,4 +1,4 @@
-/* Modern UI Styles */
+/* AI Startups & Investors Network styles */
 
 :root {
   --primary-color: #6366f1;
@@ -12,12 +12,16 @@
   --border-color: #e2e8f0;
   --investor-color: #6366f1;
   --startup-color: #10b981;
+  --comet-color: #f59e0b;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --border-radius: 8px;
   --transition: all 0.3s ease;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --glass: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(226, 232, 240, 0.9);
 }
 
 * {
@@ -128,28 +132,45 @@ main {
 
 .graph-container {
   flex: 1;
+  min-width: 0;
   position: relative;
   height: calc(100vh - 250px);
   min-height: 600px;
   border-radius: var(--border-radius);
-  background-color: var(--card-bg);
+  background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, #f5f7fb 70%, #eef2f8 100%);
   box-shadow: var(--shadow);
   overflow: hidden;
+  isolation: isolate;
 }
 
 /* Loading overlay */
 .loading-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.85);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 10;
+  transition: opacity 0.6s var(--ease-out-expo), visibility 0s linear 0.6s;
+}
+
+.loading-overlay.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-overlay.is-error .spinner {
+  display: none;
+}
+
+.loading-overlay.is-error p {
+  color: #dc2626;
+  max-width: 440px;
+  padding: 0 24px;
+  text-align: center;
 }
 
 .spinner {
@@ -165,6 +186,708 @@ main {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* ---- Graph ------------------------------------------------------------------ */
+
+.graph {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.graph__backdrop {
+  cursor: grab;
+}
+
+.graph.is-dragging,
+.graph.is-dragging * {
+  cursor: grabbing;
+}
+
+.grid-dot {
+  fill: #d5deea;
+}
+
+/* Colours stay on stroke-opacity so CSS never fights the opacity attribute D3 animates. */
+.link {
+  fill: none;
+  stroke-linecap: round;
+  stroke-opacity: 0.55;
+  vector-effect: non-scaling-stroke;
+  transition: stroke-opacity 0.3s ease;
+}
+
+.node {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.node.is-exiting {
+  pointer-events: none;
+}
+
+.node__halo,
+.node__ring,
+.node__initial,
+.node__label {
+  pointer-events: none;
+}
+
+.node__halo {
+  transition: opacity 0.3s ease;
+}
+
+.node--startup .node__halo {
+  opacity: 0.75;
+}
+
+.node--investor .node__halo {
+  opacity: 0;
+}
+
+.node.is-related .node__halo {
+  opacity: 1;
+}
+
+.node__disc {
+  transition: stroke-width 0.2s ease;
+}
+
+.node--startup .node__disc {
+  fill: #ffffff;
+  stroke: var(--startup-color);
+  stroke-width: 3px;
+}
+
+.node--investor .node__disc {
+  fill: var(--investor-color);
+  stroke: #ffffff;
+  stroke-width: 2px;
+}
+
+.node:hover .node__disc,
+.node.is-focus .node__disc {
+  stroke-width: 4px;
+}
+
+/* A slow ambient pulse on every startup, staggered per node from script. */
+.node__ring {
+  fill: none;
+  stroke: var(--startup-color);
+  stroke-width: 2px;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-ring 3.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes node-ring {
+  0% { transform: scale(1); opacity: 0.5; }
+  70%, 100% { transform: scale(1.6); opacity: 0; }
+}
+
+.node__initial {
+  fill: var(--startup-color);
+  font-size: 22px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* Labels counter-scale with zoom (--label-scale is set from script) so they stay readable. */
+.node__label {
+  fill: var(--text-primary);
+  font-size: calc(11px * var(--label-scale, 1));
+  font-weight: 500;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+.node--startup .node__label {
+  font-size: calc(13px * var(--label-scale, 1));
+  font-weight: 600;
+}
+
+.node__tag {
+  transition: opacity 0.35s ease;
+}
+
+/* Semantic zoom: zoomed out, investor labels step back unless highlighted. */
+.graph.is-far .node--investor:not(.is-related) .node__tag {
+  opacity: 0;
+}
+
+.graph.is-highlighting .node:not(.is-related) {
+  opacity: 0.14;
+}
+
+.graph.is-highlighting .link {
+  stroke-opacity: 0.06;
+}
+
+.graph.is-highlighting .link.is-related {
+  stroke-opacity: 1;
+}
+
+/* Effects */
+.graph__fx {
+  pointer-events: none;
+}
+
+.fx-shockwave circle,
+.fx-ripple circle {
+  fill: none;
+  stroke: var(--startup-color);
+}
+
+.fx-comet__head {
+  fill: #ffffff;
+}
+
+.fx-comet__trail {
+  fill: var(--comet-color);
+}
+
+/* ---- Timeline HUD --------------------------------------------------------------- */
+
+.hud,
+.caption,
+.scrubber {
+  position: absolute;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.45s var(--ease-out-expo), transform 0.6s var(--ease-out-expo), visibility 0s linear 0.45s;
+}
+
+.graph-container.is-timeline .hud,
+.graph-container.is-timeline .caption,
+.graph-container.is-timeline .scrubber {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+/* The overlays arrive one after another. */
+.graph-container.is-timeline .caption {
+  transition-delay: 0.08s;
+}
+
+.graph-container.is-timeline .scrubber {
+  transition-delay: 0.16s;
+}
+
+/* While it fades out after exit, the transport ignores the pointer, so a late click can't seek. */
+.graph-container:not(.is-timeline) .scrubber {
+  pointer-events: none;
+}
+
+.hud {
+  inset: 0;
+  pointer-events: none;
+}
+
+.hud__panel,
+.caption__card,
+.scrubber,
+.zoom-controls {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hud__panel {
+  position: absolute;
+  top: 16px;
+  border-radius: 12px;
+  padding: 8px 16px;
+}
+
+.hud__date {
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hud__stats {
+  right: 16px;
+  display: flex;
+  gap: 18px;
+}
+
+/* Odometer: each digit is a column of 0-9 plus a trailing 0, rolled with transforms. */
+.odo {
+  display: inline-flex;
+  height: 1.1em;
+  line-height: 1.1em;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 16%, #000 84%, transparent 100%);
+}
+
+/* Leading zeros fade in from script as the value grows, so there is no CSS transition here. */
+.odo__digit {
+  display: block;
+  width: 0.68em;
+  height: 1.1em;
+  overflow: hidden;
+  text-align: center;
+}
+
+.odo__column,
+.roller__column {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.odo__column > span {
+  display: block;
+  height: 1.1em;
+}
+
+.odo--year {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.roller {
+  height: 1.3em;
+  min-width: 3.6em;
+  line-height: 1.3em;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--primary-color);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+}
+
+.roller__column > span {
+  display: block;
+  height: 1.3em;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat .odo {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.stat--startups .odo {
+  color: var(--secondary-dark);
+}
+
+.stat--investors .odo {
+  color: var(--primary-color);
+}
+
+.stat--deals .odo {
+  color: #d97706;
+}
+
+.stat__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Caption: a lower-third card per month; cards cross-fade in one grid cell.
+   --caption-reserve is the card height the camera plans for when it chooses between framing
+   the graph beside the card or above it; it still clears taller cards. */
+.caption {
+  --caption-reserve: 120px;
+  left: 16px;
+  bottom: 82px;
+  width: min(330px, calc(100% - 32px));
+  display: grid;
+  pointer-events: none;
+}
+
+.caption__card {
+  grid-area: 1 / 1;
+  align-self: end;
+  border-left: 4px solid var(--comet-color);
+  border-radius: 10px;
+  box-shadow: var(--shadow-md);
+  padding: 12px 16px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s var(--ease-out-expo), transform 0.55s var(--ease-out-expo);
+}
+
+.caption__card--found {
+  border-left-color: var(--startup-color);
+}
+
+.caption__card--deal {
+  border-left-color: var(--investor-color);
+}
+
+.caption__card.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.caption__card.is-out {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition-duration: 0.3s;
+}
+
+.caption__kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.caption__title {
+  margin: 2px 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+.caption__body {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.caption__deals {
+  list-style: none;
+  margin-top: 4px;
+}
+
+/* Each deal row stays collapsed until its deal fires (script adds .is-in), so the card
+   grows as the month plays instead of reserving empty space. */
+.caption__deal {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-height: 0;
+  padding-top: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: max-height 0.4s var(--ease-out-expo), padding-top 0.4s var(--ease-out-expo),
+    opacity 0.3s ease, transform 0.45s var(--ease-out-expo);
+}
+
+.caption__deal.is-in {
+  max-height: 2em;
+  padding-top: 4px;
+  opacity: 1;
+  transform: none;
+}
+
+.caption__deal b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.caption__deal i {
+  flex: none;
+  font-size: 10px;
+  color: var(--comet-color);
+}
+
+.caption__deal span {
+  flex: none;
+  font-weight: 600;
+  color: var(--secondary-dark);
+}
+
+.caption__more {
+  font-style: italic;
+}
+
+/* Scrubber */
+.scrubber {
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scrubber__btn {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.scrubber__btn:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+}
+
+.scrubber__btn--play {
+  width: 38px;
+  height: 38px;
+  background: var(--primary-color);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
+
+.scrubber__btn--play:hover {
+  background: var(--primary-dark);
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+.scrubber__btn--speed {
+  width: 42px;
+  border-radius: 17px;
+  font-variant-numeric: tabular-nums;
+}
+
+.scrubber__track {
+  position: relative;
+  flex: 1;
+  height: 36px;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.scrubber__rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 12px;
+  height: 6px;
+  border-radius: 3px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.scrubber__fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.scrubber__ticks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 12px;
+  height: 6px;
+  pointer-events: none;
+}
+
+.scrubber__tick {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 6px;
+  margin-left: -1px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Months with a founding get an emerald dot. */
+.scrubber__tick--found {
+  width: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: var(--startup-color);
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+.scrubber__head {
+  position: absolute;
+  left: 0;
+  top: 15px;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 3px solid var(--primary-color);
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  will-change: transform;
+  transition: width 0.15s ease, height 0.15s ease, margin 0.15s ease;
+}
+
+.scrubber__track:hover .scrubber__head,
+.scrubber.is-scrubbing .scrubber__head {
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+}
+
+.scrubber__years {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 21px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.scrubber__year {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.scrubber__year.is-hidden {
+  visibility: hidden;
+}
+
+.scrubber__preview {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--text-primary);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.scrubber__preview.is-visible {
+  opacity: 1;
+}
+
+/* Zoom controls */
+.zoom-controls {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 10px;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
+.zoom-controls button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.zoom-controls button:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+}
+
+.graph-container.is-timeline .zoom-controls {
+  transform: translateY(-62px);
+}
+
+.scrubber__btn:focus-visible,
+.scrubber__track:focus-visible,
+.zoom-controls button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Tooltip */
+.tooltip {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 240px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.92);
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.tooltip.is-visible {
+  opacity: 1;
+}
+
+.tooltip strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tooltip span {
+  color: #cbd5e1;
 }
 
 /* Sidebar styles */
@@ -210,6 +933,100 @@ main {
   line-height: 1.6;
 }
 
+.info-panel.is-updated {
+  animation: panel-in 0.35s var(--ease-out-expo);
+}
+
+@keyframes panel-in {
+  from { opacity: 0.4; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.node-detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.node-detail-header h4 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.node-type {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.node-type--startup {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--secondary-dark);
+}
+
+.node-type--investor {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--primary-dark);
+}
+
+.node-about {
+  margin-bottom: 10px;
+}
+
+.node-facts {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.node-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.node-facts dd {
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.info-panel h5 {
+  margin: 8px 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.node-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.node-list li::before {
+  content: '•';
+  margin-right: 6px;
+  color: var(--primary-color);
+}
+
+.node-list .more {
+  font-style: italic;
+}
+
+.node-list .more::before {
+  content: none;
+}
+
 /* Legend styles */
 .legend {
   display: flex;
@@ -232,19 +1049,40 @@ main {
   box-shadow: var(--shadow-sm);
 }
 
+.legend-color.startup {
+  background: #ffffff;
+  box-shadow: inset 0 0 0 3px var(--startup-color), var(--shadow-sm);
+}
+
+.legend-color.investor {
+  background-color: var(--investor-color);
+}
+
 .legend-line {
   width: 30px;
   height: 3px;
-  background-color: #94a3b8;
   border-radius: 2px;
+  background: linear-gradient(90deg, var(--investor-color), var(--startup-color));
 }
 
-.startup {
-  background-color: var(--startup-color);
+.legend-hint {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
-.investor {
-  background-color: var(--investor-color);
+.legend-hint kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-color);
+  font-family: inherit;
+  font-size: 11px;
+  text-align: center;
 }
 
 /* Filter controls */
@@ -291,6 +1129,11 @@ main {
   background-color: var(--primary-color);
 }
 
+.checkbox-container input:focus-visible ~ .checkmark {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
 .checkmark:after {
   content: "";
   position: absolute;
@@ -321,24 +1164,42 @@ main {
   border-top: 1px solid var(--border-color);
 }
 
-/* Graph styling */
-svg .node text {
-  fill: var(--text-primary);
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-size: 12px;
-}
+/* Reduced motion: keep the fades, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  .node__ring {
+    animation: none;
+    opacity: 0;
+  }
 
-svg .node circle {
-  stroke: white;
-  stroke-width: 2px;
-  filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.2));
-  transition: all 0.2s ease;
-}
+  .caption__deal {
+    transform: none;
+    transition: opacity 0.2s ease;
+  }
 
-svg .node:hover circle {
-  stroke-width: 3px;
-  filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.3));
+  .hud,
+  .caption,
+  .scrubber,
+  .caption__card {
+    transform: none !important;
+  }
+
+  /* The zoom stack keeps its timeline offset (it clears the scrubber) but jumps there. */
+  .zoom-controls {
+    transition: none;
+  }
+
+  .info-panel.is-updated {
+    animation: none;
+  }
+
+  .btn:hover,
+  .scrubber__btn--play:hover {
+    transform: none;
+  }
+
+  .spinner {
+    animation-duration: 2s;
+  }
 }
 
 /* Responsive design */
@@ -346,20 +1207,20 @@ svg .node:hover circle {
   main {
     flex-direction: column;
   }
-  
+
   .sidebar {
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
   }
-  
+
   .sidebar-section {
     flex: 1;
     min-width: 300px;
   }
-  
+
   .graph-container {
-    height: 500px;
+    height: 600px;
   }
 }
 
@@ -368,8 +1229,90 @@ svg .node:hover circle {
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .sidebar {
     flex-direction: column;
+  }
+
+  .app-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .odo--year {
+    font-size: 26px;
+  }
+
+  .stat .odo {
+    font-size: 18px;
+  }
+
+  .hud__stats {
+    gap: 12px;
+    padding: 6px 12px;
+  }
+
+  .caption__title {
+    font-size: 16px;
+  }
+
+  .scrubber [data-hud="speed"],
+  .scrubber [data-hud="replay"] {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .odo--year {
+    font-size: 22px;
+  }
+
+  .roller {
+    font-size: 12px;
+  }
+
+  .stat .odo {
+    font-size: 16px;
+  }
+
+  .hud__stats {
+    gap: 8px;
+    padding: 6px 10px;
+  }
+
+  .stat__label {
+    font-size: 8px;
+  }
+
+  /* Phones: a compact caption (kicker + title) leaves the graph room to breathe. */
+  .caption {
+    --caption-reserve: 64px;
+  }
+
+  .caption__body,
+  .caption__deals {
+    display: none;
+  }
+
+  /* The zoom buttons would sit on the caption; pinch-zoom still works. */
+  .graph-container.is-timeline .zoom-controls {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Narrow phones: tighter top panels, so the counters never cover the month. */
+@media (max-width: 400px) {
+  .hud__date {
+    gap: 6px;
+    padding: 6px 10px;
+  }
+
+  .hud__stats {
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .stat__label {
+    letter-spacing: 0.06em;
   }
 }
